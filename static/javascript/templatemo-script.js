@@ -23,8 +23,8 @@ $(document).ready(function () {
     });
 });
 const initBg = (autoplay = true) => {
-    const bgImgsNames = ["{{url_for('static', filename='images/diagoona-bg-1.jpg')}}"
-    , "{{url_for('static', filename='images/diagoona-bg-2.jpg')}}", "{{ url_for('static', filename='images/diagoona-bg-3.jpg')}}"];
+    const bgImgsNames = ["{{url_for('static', filename='images/one.jpg')}}"
+    , "{{url_for('static', filename='images/two.jpg')}}", "{{ url_for('static', filename='images/three.jpg')}}"];
     const bgImgs = bgImgsNames.map(images => "images/" + images);
 
     $.backstretch(bgImgs, { duration: 4000, fade: 500 });
