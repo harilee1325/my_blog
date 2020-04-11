@@ -7,37 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MyBlog Home</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" />
-    <!-- https://fonts.google.com/ -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}" />
-    <!-- https://getbootstrap.com/ -->
     <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css')}}" />
-    <!-- https://fontawesome.com/ -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/templatemo-diagoona.css')}}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script type="text/javascript"
-        src="{{ url_for('static', filename='javascript/jquery.backstretch.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='javascript/templatemo-script.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='javascript/jquery-3.4.1.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='javascript/bootstrap.min.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='javascript/jquery-3.4.1.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='javascript/bootstrap.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='javascript/jquery.backstretch.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='javascript/templatemo-script.js')}}"></script>
 
 </head>
 
 <body>
-    <!-- <script type="text/javascript" src="{{ url_for('static', filename='javascript/get_articles.js')}}" ></script> -->
-    <script>
-        console.log("aaaaaaaaaaaaaaaaa")
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "http://127.0.0.1:5000/get-articles",
-            success: function (data) {
-                buf1 = data;
-                console.log("hhhhhhhhhhhhhhhhhhhhhhhh")
-                console.log(data);
-            }
-        })
-    </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/get_articles.js')}}" ></script>
+
     <div class="tm-container">
         <div>
             <div class="tm-row pt-4">
@@ -174,4 +157,5 @@
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
 </script>
+
 </html>
