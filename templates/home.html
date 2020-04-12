@@ -87,7 +87,7 @@
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: sessionStorage.getItem("BASE_URL")+"get-articles",
+            url: sessionStorage.getItem("BASE_URL_TEST")+"get-articles",
             success: function (data) {
                 articleArray = data['data'];
                 console.log(data['result']);
@@ -194,7 +194,7 @@
                         <p class="mb-5">Here in MyBlog we take suggestions from our viewers and write contents based on
                             those topics. e do research on any given
                             topic and make it interesting for you to read..</p>
-                        <a href="{{ url_for('see_all')}}" class="btn btn-primary">Read away..</a>
+                        <a href="{{ url_for('upload_article')}}" class="btn btn-primary">Read away..</a>
                     </section>
                 </main>
             </div>

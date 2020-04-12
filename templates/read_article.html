@@ -82,24 +82,21 @@
   <script>
     console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
     console.log(sessionStorage.getItem("ARTICLE_ID"))
-    var articleId = sessionStorage.getItem("ARTICLE_ID")
+    var articleId = sessionStorage.getItem("ARTICLE_ID");
     var articleSpecific;
     $.ajax({
       type: "GET",
       dataType: "json",
-      url: sessionStorage.getItem("BASE_URL") + "get-article-specific/" + articleId,
+      url: sessionStorage.getItem("BASE_URL_TEST") + "get-article-specific/" + articleId,
       success: function (data) {
         articleSpecific = data['data'];
-        console.log(data['result']);
 
         document.getElementById("article_title").innerHTML = `${articleSpecific['title']}`
         var body = articleSpecific['body'];
         var bodyArray = body.split("\\n");
-        console.log(bodyArray);
         var output = document.getElementById("article_body")
         output.innerHTML = `
                 ${bodyArray.map(function (keyword) {
-          console.log(keyword)
           return `
                   <p>${keyword}</p>
                   `

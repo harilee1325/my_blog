@@ -30,6 +30,11 @@ def home():
 def contact():
   return render_template("contact.html")
 
+@app.route("/contact", methods=['POST'])
+def contact_post():
+  return render_template("contact.html")
+
+
 @app.route("/favicon.ico")
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
@@ -58,6 +63,7 @@ def get_article():
  
 @app.route("/read_article")
 def read_article():
+  
   return render_template("read_article.html")
 
 
@@ -87,6 +93,11 @@ def get_article_specific(article_id):
 @app.route("/see_all")     
 def see_all():
   return render_template("see_all.html")
+
+
+@app.route("/upload_article")
+def upload_article():
+  return render_template("upload_article.html")
 
 if __name__=='__main__':
   app.run(debug=True)  

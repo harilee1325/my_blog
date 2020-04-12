@@ -86,65 +86,74 @@
     $.ajax({
       type: "GET",
       dataType: "json",
-      url: sessionStorage.getItem("BASE_URL") + "get-articles",
+      url: sessionStorage.getItem("BASE_URL_TEST") + "get-articles",
       success: function (data) {
         articleArray = data['data'];
         len = articleArray.length;
         console.log(len);
-        for (i = 0; i < len; i = i + 2) {
-          articleArray1[i] = articleArray[i];
-          articleArray2[i] = articleArray[i + 1];
-        }
-        console.log(articleArray1);
-        console.log(articleArray2);
-        console.log(data['result']);
-        var flag = true;
-        var card_1 = document.getElementById("article_card_1");
-        var card_2 = document.getElementById("article_card_2");
+        if (len > 1) {
+          for (i = 0; i < len; i = i + 2) {
+            articleArray1[i] = articleArray[i];
+            articleArray2[i] = articleArray[i + 1];
+          }
+          console.log(articleArray1);
+          console.log(articleArray2);
+          console.log(data['result']);
+          var flag = true;
+          var card_1 = document.getElementById("article_card_1");
+          var card_2 = document.getElementById("article_card_2");
 
-        card_2.innerHTML = `
+          card_2.innerHTML = `
         ${articleArray2.map(function (article) {
-          return `
+            console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+            console.log(article['id']);
+
+            return `
           <div class="column-33">
             <img src=${article['image']} alt="App" width="335" height="471">
           </div>
           <div class="column-66">
             <h1 class="xlarge-font" style="color:black;"><b>${article['title']}</b></h1>
-            <h1 class="large-font" style="color:red;"><b>By Harikrishnan</b></h1>
+            <h1 class="large-font" style="color:red;"><b>By ${article['author']}</b></h1>
             <p style="color:black;font-weight:400;">${article['description']}</p>
             <a href="{{ url_for('read_article')}}" 
-                        onclick="${storeIdInSession(article['id'])}"
-                        class="btn btn-danger">Read more...</a>          </div>
+                        onclick=storeIdInSession('${article['id']}')
+                        class="btn btn-success">Read more...</a>
+      
+           </div>
           `
-        })}
+          }).join('')}
         
         `
-
-        card_1.innerHTML = `
+          card_1.innerHTML = `
         ${articleArray1.map(function (article) {
-          return `
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            console.log(article['id']);
+            return `
           <div class="column-66">
             <h1 class="xlarge-font"><b>${article['title']}</b></h1>
-            <h1 class="large-font" style="color:MediumSeaGreen; font-weight:400;"><b>By Harikrishnan</b></h1>
+            <h1 class="large-font" style="color:MediumSeaGreen; font-weight:400;"><b>By ${article['author']}</b></h1>
             <p style="font-weight:400;">${article['description']}</p>
-            <a href="{{ url_for('read_article')}}" 
-                        onclick="${storeIdInSession(article['id'])}"
-                        class="btn btn-success">Read more...</a>
+            <a  href="{{ url_for('read_article')}}"
+                        onclick=storeIdInSession('${article['id']}')
+                        class="btn btn-danger">Read more...</a>
           </div>
           <div class="column-33">
             <img src=${article['image']} width="335" height="471">
           </div>
           `
-        }).join('')}
+          }).join('')}
 
         `
+        }
       }
     });
-    function storeIdInSession(article_id) {
-      if (typeof (Storage) != undefined) {
-        sessionStorage.setItem("ARTICLE_ID", article_id);
+    function storeIdInSession (article_id) {
+      console.log("helooooooooooooooooooo");
+      console.log(article_id);
+      sessionStorage.setItem("ARTICLE_ID", article_id);
 
-      }
+
     }
   </script>
 
