@@ -213,9 +213,7 @@
                     var name = document.getElementById("name");
                     var message = document.getElementById("message");
                     var email = document.getElementById("email");
-                    window.open(`
-                    mailto:${email}?subject=${name} suggestion&body=${message}
-                    `);
+                    window.open("mailto:"+email+"?subject="+name+" suggestion "+"&body="+message);
                     window.alert("Mail has been sent to the admin. Thank you for your time.")
                   }
                 </script>
