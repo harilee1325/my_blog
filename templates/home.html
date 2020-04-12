@@ -81,13 +81,13 @@
 <body>
 
     <script>
-        sessionStorage.setItem("BASE_URL_TEST","http://127.0.0.1:5000/" );
-        sessionStorage.setItem("BASE_URL","https://hariblog.herokuapp.com/" );
+        sessionStorage.setItem("BASE_URL_TEST", "http://127.0.0.1:5000/");
+        sessionStorage.setItem("BASE_URL", "https://hariblog.herokuapp.com/");
         var articleArray;
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: sessionStorage.getItem("BASE_URL_TEST")+"get-articles",
+            url: sessionStorage.getItem("BASE_URL_TEST") + "get-articles",
             success: function (data) {
                 articleArray = data['data'];
                 console.log(data['result']);
@@ -121,6 +121,11 @@
             }
 
         })
+        function arrayRotate(arr, reverse) {
+            if (reverse) arr.unshift(arr.pop());
+            else arr.push(arr.shift());
+            return arr;
+        }
         function storeIdInSession(article_id) {
             if (typeof (Storage) != undefined) {
                 sessionStorage.setItem("ARTICLE_ID", article_id);
@@ -192,9 +197,9 @@
                             and much more.</p>
                         <hr class="mb-5">
                         <p class="mb-5">Here in MyBlog we take suggestions from our viewers and write contents based on
-                            those topics. e do research on any given
+                            those topics. We do research on any given
                             topic and make it interesting for you to read..</p>
-                        <a href="{{ url_for('upload_article')}}" class="btn btn-primary">Read away..</a>
+                        <!-- <a href="{{ url_for('upload_article')}}" class="btn btn-primary">Read away..</a> -->
                     </section>
                 </main>
             </div>

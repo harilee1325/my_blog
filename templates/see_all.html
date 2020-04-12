@@ -86,69 +86,76 @@
     $.ajax({
       type: "GET",
       dataType: "json",
-      url: sessionStorage.getItem("BASE_URL") + "get-articles",
+      url: sessionStorage.getItem("BASE_URL_TEST") + "get-articles",
       success: function (data) {
         articleArray = data['data'];
         len = articleArray.length;
         console.log(len);
-        if (len > 1) {
+          var count = 0;
           for (i = 0; i < len; i = i + 2) {
-            articleArray1[i] = articleArray[i];
-            articleArray2[i] = articleArray[i + 1];
+            if ((i < (len - 1))) {
+              articleArray1[count] = articleArray[i];
+              articleArray2[count] = articleArray[i + 1];
+            }
+            if (i == len - 1) {
+              articleArray1[count] = articleArray[i];
+
+            }
+            count++;
           }
           console.log(articleArray1);
           console.log(articleArray2);
           console.log(data['result']);
           var flag = true;
-          var card_1 = document.getElementById("article_card_1");
-          var card_2 = document.getElementById("article_card_2");
+          // var card_1 = document.getElementById("article_card_1");
+          var card_2 = document.getElementById("article_card_1");
 
           card_2.innerHTML = `
-        ${articleArray2.map(function (article) {
+        ${articleArray.map(function (article) {
+
             console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
             console.log(article['id']);
 
-            return `
-          <div class="column-33">
+            if (flag) {
+              flag = false;
+              return `
+          <div class="column-33" style="margin-top:10%;">
             <img src=${article['image']} alt="App" width="335" height="471">
           </div>
           <div class="column-66">
             <h1 class="xlarge-font" style="color:black;"><b>${article['title']}</b></h1>
-            <h1 class="large-font" style="color:red;"><b>By ${article['author']}</b></h1>
-            <p style="color:black;font-weight:400;">${article['description']}</p>
+            <h1 class="large-font" style="color:MediumSeaGreen;"><b>By ${article['author']}</b></h1>
+            <p style="color:white;font-weight:400;">${article['description']}</p>
             <a href="{{ url_for('read_article')}}" 
                         onclick=storeIdInSession('${article['id']}')
                         class="btn btn-success">Read more...</a>
       
            </div>
           `
-          }).join('')}
-        
-        `
-          card_1.innerHTML = `
-        ${articleArray1.map(function (article) {
-            console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-            console.log(article['id']);
-            return `
-          <div class="column-66">
+            } else {
+              flag = true;
+              return `
+          <div class="column-66" style="margin-top:10%;">
             <h1 class="xlarge-font"><b>${article['title']}</b></h1>
             <h1 class="large-font" style="color:MediumSeaGreen; font-weight:400;"><b>By ${article['author']}</b></h1>
             <p style="font-weight:400;">${article['description']}</p>
             <a  href="{{ url_for('read_article')}}"
                         onclick=storeIdInSession('${article['id']}')
-                        class="btn btn-danger">Read more...</a>
+                        class="btn btn-success">Read more...</a>
           </div>
           <div class="column-33">
             <img src=${article['image']} width="335" height="471">
           </div>
           `
-          }).join('')}
 
+            }
+          }).join('')}
+        
         `
-        }
+
       }
     });
-    function storeIdInSession (article_id) {
+    function storeIdInSession(article_id) {
       console.log("helooooooooooooooooooo");
       console.log(article_id);
       sessionStorage.setItem("ARTICLE_ID", article_id);
@@ -165,7 +172,7 @@
   </div>
 
   <!-- The App Section -->
-  <div class="container">
+  <div class="container" >
     <div class="row" id="article_card_1">
       <!-- <div class="column-66">
         <h1 class="xlarge-font"><b>The App</b></h1>
@@ -182,9 +189,9 @@
   </div>
 
   <!-- Clarity Section -->
-  <div class="container" style="background-color:#f1f1f1;margin-bottom: 5%">
+  <!-- <div class="container" style="background-color:#f1f1f1;margin-bottom: 5%">
     <div class="row" id="article_card_2">
-      <!-- <div class="column-33">
+      <div class="column-33">
         <img src="/w3images/app5.jpg" alt="App" width="335" height="471">
       </div>
       <div class="column-66">
@@ -195,9 +202,9 @@
           ullamco laboris nisi ut aliquipex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
           velit esse cillum dolore eu fugiat nulla pariatur.</p>
         <button class="button" style="background-color:red">Read More</button>
-      </div> -->
+      </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- The App Section -->
   <!-- <div class="container">

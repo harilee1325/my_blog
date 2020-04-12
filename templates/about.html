@@ -86,7 +86,7 @@
     $.ajax({
       type: "GET",
       dataType: "json",
-      url: sessionStorage.getItem("BASE_URL")+"get-articles",
+      url: sessionStorage.getItem("BASE_URL_TEST")+"get-articles",
       success: function (data) {
         articleArray = data['data'];
         console.log(data['result']);
@@ -193,7 +193,7 @@
               <i class="fa fa-cogs fa-3x p-3 mr-4"></i>
               <div class="media-body">
                 <p>Innovative tech mind with 3 years of experience working as a computer programmer.
-                  Extensive expertise in the field of andoir development and working with flash framework.
+                  Extensive expertise in the field of android development and working with flash framework.
                 </p>
               </div>
             </div>

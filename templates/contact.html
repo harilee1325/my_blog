@@ -86,7 +86,7 @@
     $.ajax({
       type: "GET",
       dataType: "json",
-      url: sessionStorage.getItem("BASE_URL") + "get-articles",
+      url: sessionStorage.getItem("BASE_URL_TEST") + "get-articles",
       success: function (data) {
         articleArray = data['data'];
         console.log("hhhhhh")
@@ -198,9 +198,9 @@
               <div class="form-group mb-4">
                 <input type="text" name="name" id="name" class="form-control" placeholder="Name" required="" />
               </div>
-              <div class="form-group mb-4">
+              <!-- <div class="form-group mb-4">
                 <input type="email" name="email" id="email" class="form-control" placeholder="Email" required="" />
-              </div>
+              </div> -->
               <div class="form-group mb-5">
                 <textarea rows="6" name="message" id="message" class="form-control" placeholder="Message..." required=""></textarea>
               </div>
@@ -212,8 +212,7 @@
 
                     var name = document.getElementById("name");
                     var message = document.getElementById("message");
-                    var email = document.getElementById("email");
-                    window.open("mailto:"+email+"?subject="+name+" suggestion "+"&body="+message);
+                    window.open("mailto:hari.auctionsoftware@gmail.com?subject="+name+" suggestion "+"&body="+message);
                     window.alert("Mail has been sent to the admin. Thank you for your time.")
                   }
                 </script>
