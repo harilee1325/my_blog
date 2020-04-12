@@ -17,7 +17,7 @@
         src="{{ url_for('static', filename='javascript/jquery.backstretch.min.js')}}"></script>
 
 
-   <script>
+    <script>
         $(document).ready(function () {
             const autoplayBg = true;	// set Auto Play for Background Images
             initBg(autoplayBg);
@@ -79,36 +79,54 @@
 </head>
 
 <body>
-   
+
     <script>
+        sessionStorage.setItem("BASE_URL_TEST","http://127.0.0.1:5000/" );
+        sessionStorage.setItem("BASE_URL","https://hariblog.herokuapp.com/" );
         var articleArray;
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: "https://hariblog.herokuapp.com/get-articles",
+            url: sessionStorage.getItem("BASE_URL")+"get-articles",
             success: function (data) {
                 articleArray = data['data'];
-                console.log("hhhhhh")
                 console.log(data['result']);
-                console.log("asdasdasdasdasd")
-
-                var output = document.getElementById("article_card")
+                var flag = true;
+                var output = document.getElementById("article_card");
                 output.innerHTML = `
+                <h1 style="margin-top:10%" ;class="mb-4 tm-content-title">Top Article</h1>
                 ${articleArray.map(function (article) {
                     console.log(article['title'])
-                    return `
+                    if (flag) {
+                        flag = false;
+                        return `
+                    <section class="tm-content">
                     <img src="${article.image}" alt="Image" width=150 height=auto
                     class="tm-service-img">
                     <div class="media-body tm-service-text">
-                    <h2 class="mb-4 tm-content-title">${article['title']}</h2>
-                    <p>${article.description}</p>
+                        <h2 class="mb-4 tm-content-title">${article['title']}</h2>
+                        <p style="font-weight:400;">${article.description}</p>
+                        <a href="{{ url_for('read_article')}}" 
+                        style="margin-left:-6%";
+                        onclick="${storeIdInSession(article['id'])}"
+                        class="btn btn-link">Read more...</a>
+
                     </div>
-                    `
+                    <section>
+                    `}
+
                 }).join('')}
 
                 `
             }
+
         })
+        function storeIdInSession(article_id) {
+            if (typeof (Storage) != undefined) {
+                sessionStorage.setItem("ARTICLE_ID", article_id);
+
+            }
+        }
     </script>
     <div class="tm-container">
         <div>
@@ -141,6 +159,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link tm-nav-link" href="{{ url_for('contact') }}">Contact</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link tm-nav-link" href="{{ url_for('see_all') }}">See All</a>
+                                </li>
                             </ul>
                         </div>
                     </nav>
@@ -148,19 +169,20 @@
             </div>
 
             <div class="tm-row">
-                <div class="tm-col-left">
-                    <h1 style="margin-top:10%" ;class="mb-4 tm-content-title">Today's Top Articles</h1>
-                    <section class="tm-content">
-                        <div class="media my-3 mb-5 tm-service-media tm-service-media-img-l" , id="article_card">
-                            <!-- <img src="{{ url_for('static', filename='images/services-1.jpg')}}" alt="Image"
-                                class="tm-service-img">
+                <div class="tm-col-left" id="article_card">
+                    <!-- <h1 style="margin-top:10%" ;class="mb-4 tm-content-title">Top Articles</h1> -->
+                    <!-- <section class="tm-content">
+                        <div class="media my-3 mb-5 tm-service-media tm-service-media-img-l" >
+                             <img src="{{ url_for('static', filename='images/services-1.jpg')}}" alt="Image"
+                                class="tm-service-img" id="article_image">
                             <div class="media-body tm-service-text">
-                                <h2 class="mb-4 tm-content-title">Best Services for you</h2>
-                                <p>Our template is simple and effective. This is an alternating simple content with a
+                                <h2 class="mb-4 tm-content-title" id="article_title">Best Services for you</h2>
+                                <p id="article_desc">Our template is simple and effective. This is an alternating simple
+                                    content with a
                                     squared size image. Menu hover is #9CC and text #FFF</p>
-                            </div> -->
+                            </div> 
                         </div>
-                    </section>
+                    </section>  -->
                 </div>
                 <main class="tm-col-right">
                     <section class="tm-content">
@@ -172,7 +194,7 @@
                         <p class="mb-5">Here in MyBlog we take suggestions from our viewers and write contents based on
                             those topics. e do research on any given
                             topic and make it interesting for you to read..</p>
-                        <a href="{{ url_for('contact')}}" class="btn btn-primary">Contact</a>
+                        <a href="{{ url_for('see_all')}}" class="btn btn-primary">Read away..</a>
                     </section>
                 </main>
             </div>
@@ -187,12 +209,12 @@
                 </ul>
             </div>
             <!-- <div class="tm-col-right tm-col-footer">
-                <footer class="tm-site-footer text-right">
-                    <p class="mb-0">Copyright 2020 Diagoona Co. 
-                    
-                    | Design: <a href="https://templatemo.com" class="tm-text-link">TemplateMo</a></p>
-                </footer>
-            </div>   -->
+                    <footer class="tm-site-footer text-right">
+                        <p class="mb-0">Copyright 2020 Diagoona Co. 
+                        
+                        | Design: <a rel="nofollow" href="https://templatemo.com" class="tm-text-link">TemplateMo</a></p>
+                    </footer>
+                </div>   -->
         </div>
 
         <!-- Diagonal background design -->
@@ -200,6 +222,7 @@
             <div class="tm-bg-left"></div>
             <div class="tm-bg-right"></div>
         </div>
+
     </div>
 
 

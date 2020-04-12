@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{{ url_for('static', filename='css/see_all.css')}}" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css')}}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/templatemo-diagoona.css')}}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script type="text/javascript" src="{{ url_for('static', filename='javascript/jquery-3.4.1.min.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='javascript/bootstrap.min.js')}}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='javascript/jquery.backstretch.min.js')}}"></script>
+
+
+  <script>
+    $(document).ready(function () {
+      const autoplayBg = true;	// set Auto Play for Background Images
+      initBg(autoplayBg);
+      setBgOverlay();
+
+      const bgControl = $('.tm-bg-control');
+      bgControl.click(function () {
+        bgControl.removeClass('active');
+        $(this).addClass('active');
+        const id = $(this).data('id');
+        setBg(id);
+      });
+
+      $(window).on("backstretch.after", function (e, instance, index) {
+        const bgControl = $('.tm-bg-control');
+        bgControl.removeClass('active');
+        const current = $(".tm-bg-controls-wrapper").find(`[data-id=${index}]`);
+        current.addClass('active');
+      });
+
+      $(window).resize(function () {
+        setBgOverlay();
+      });
+    });
+    initBg = (autoplay = true) => {
+      const bgImgsNames = ["{{url_for('static', filename='images/one.jpg')}}"
+        , "{{url_for('static', filename='images/two.jpg')}}", "{{ url_for('static', filename='images/three.jpg')}}"];
+      const bgImgs = bgImgsNames.map(images => images);
+
+      $.backstretch(bgImgs, { duration: 4000, fade: 500 });
+
+      if (!autoplay) {
+        $.backstretch('pause');
+      }
+    }
+
+    const setBg = id => {
+      $.backstretch('show', id);
+    }
+
+    const setBgOverlay = () => {
+      const windowWidth = window.innerWidth;
+      const bgHeight = $('body').height();
+      const tmBgLeft = $('.tm-bg-left');
+
+      $('.tm-bg').height(bgHeight);
+
+      if (windowWidth > 768) {
+        tmBgLeft.css('border-left', `0`)
+          .css('border-top', `${bgHeight}px solid transparent`);
+      } else {
+        tmBgLeft.css('border-left', `${windowWidth}px solid transparent`)
+          .css('border-top', `0`);
+      }
+    }
+
+
+  </script>
+</head>
+
+<body>
+
+  <script>
+    var articleArray1 = [];
+    var articleArray2 = [];
+    var articleArray;
+    var i;
+    var len;
+    $.ajax({
+      type: "GET",
+      dataType: "json",
+      url: sessionStorage.getItem("BASE_URL") + "get-articles",
+      success: function (data) {
+        articleArray = data['data'];
+        len = articleArray.length;
+        console.log(len);
+        for (i = 0; i < len; i = i + 2) {
+          articleArray1[i] = articleArray[i];
+          articleArray2[i] = articleArray[i + 1];
+        }
+        console.log(articleArray1);
+        console.log(articleArray2);
+        console.log(data['result']);
+        var flag = true;
+        var card_1 = document.getElementById("article_card_1");
+        var card_2 = document.getElementById("article_card_2");
+
+        card_2.innerHTML = `
+        ${articleArray2.map(function (article) {
+          return `
+          <div class="column-33">
+            <img src=${article['image']} alt="App" width="335" height="471">
+          </div>
+          <div class="column-66">
+            <h1 class="xlarge-font" style="color:black;"><b>${article['title']}</b></h1>
+            <h1 class="large-font" style="color:red;"><b>By Harikrishnan</b></h1>
+            <p style="color:black;font-weight:400;">${article['description']}</p>
+            <a href="{{ url_for('read_article')}}" 
+                        onclick="${storeIdInSession(article['id'])}"
+                        class="btn btn-danger">Read more...</a>          </div>
+          `
+        })}
+        
+        `
+
+        card_1.innerHTML = `
+        ${articleArray1.map(function (article) {
+          return `
+          <div class="column-66">
+            <h1 class="xlarge-font"><b>${article['title']}</b></h1>
+            <h1 class="large-font" style="color:MediumSeaGreen; font-weight:400;"><b>By Harikrishnan</b></h1>
+            <p style="font-weight:400;">${article['description']}</p>
+            <a href="{{ url_for('read_article')}}" 
+                        onclick="${storeIdInSession(article['id'])}"
+                        class="btn btn-success">Read more...</a>
+          </div>
+          <div class="column-33">
+            <img src=${article['image']} width="335" height="471">
+          </div>
+          `
+        }).join('')}
+
+        `
+      }
+    });
+    function storeIdInSession(article_id) {
+      if (typeof (Storage) != undefined) {
+        sessionStorage.setItem("ARTICLE_ID", article_id);
+
+      }
+    }
+  </script>
+
+
+  <!-- desing starts here -->
+  <div clas <div style="text-align:center; margin-top: 3%">
+    <h2>All Articles</h2>
+    <p>Find your best read here.</p>
+  </div>
+
+  <!-- The App Section -->
+  <div class="container">
+    <div class="row" id="article_card_1">
+      <!-- <div class="column-66">
+        <h1 class="xlarge-font"><b>The App</b></h1>
+        <h1 class="large-font" style="color:MediumSeaGreen;"><b>Why buy it?</b></h1>
+        <p><span style="font-size:36px">Take photos like a pro.</span> You should buy this app because lorem ipsum
+          consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <button class="button">Download Application</button>
+      </div>
+      <div class="column-33">
+        <img src="/w3images/img_app.jpg" width="335" height="471">
+      </div> -->
+    </div>
+  </div>
+
+  <!-- Clarity Section -->
+  <div class="container" style="background-color:#f1f1f1;margin-bottom: 5%">
+    <div class="row" id="article_card_2">
+      <!-- <div class="column-33">
+        <img src="/w3images/app5.jpg" alt="App" width="335" height="471">
+      </div>
+      <div class="column-66">
+        <h1 class="xlarge-font"><b>Clarity</b></h1>
+        <h1 class="large-font" style="color:red;"><b>Pixels, who?</b></h1>
+        <p><span style="font-size:24px">A revolution in resolution.</span> Sharp and clear photos with the world's best
+          photo engine, incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+          ullamco laboris nisi ut aliquipex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+          velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        <button class="button" style="background-color:red">Read More</button>
+      </div> -->
+    </div>
+  </div>
+
+  <!-- The App Section -->
+  <!-- <div class="container">
+    <div class="row">
+      <div class="column-66">
+        <h1 class="xlarge-font"><b>The App</b></h1>
+        <h1 class="large-font" style="color:MediumSeaGreen;"><b>Why buy it?</b></h1>
+        <p><span style="font-size:36px">Take photos like a pro.</span> You should buy this app because lorem ipsum
+          consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+          irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        <button class="button">Download Application</button>
+      </div>
+      <div class="column-33">
+        <img src="/w3images/img_app.jpg" width="335" height="471">
+      </div>
+    </div>
+  </div> -->
+
+</body>
+
+</html>
