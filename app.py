@@ -99,5 +99,34 @@ def see_all():
 def upload_article():
   return render_template("upload_article.html")
 
+
+@app.route("/upload_article", methods=['POST'])
+def upload_article_post():
+  try:
+    title = request.form['title']
+    body = request.form['article_body']
+    desc = request.form['desc']
+    author = request.form['name']
+    
+    count = db.article.count()+1
+    articleId ='article00'+str(count)
+
+    upload_status = db.article.insert({
+      "title" : title,
+      "body" : body,
+      "image" : "asas",
+      "id" : articleId,
+      "author" : author,
+      "description" : desc,
+      "upvote" : "0",
+      "downvote" : "0"
+
+    })
+    status = db.article.find_one({"_id": upload_status})
+    print (title)
+    return render_template('upload_article.html', value="yes")
+  except Exception as e:
+      return dumps({'error' : str(e)})
+
 if __name__=='__main__':
   app.run(debug=True)  

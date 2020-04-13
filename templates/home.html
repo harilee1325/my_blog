@@ -19,7 +19,7 @@
 
     <script>
         $(document).ready(function () {
-            const autoplayBg = true;	// set Auto Play for Background Images
+            const autoplayBg = true; // set Auto Play for Background Images
             initBg(autoplayBg);
             setBgOverlay();
 
@@ -43,11 +43,13 @@
             });
         });
         initBg = (autoplay = true) => {
-            const bgImgsNames = ["{{url_for('static', filename='images/one.jpg')}}"
-                , "{{url_for('static', filename='images/two.jpg')}}", "{{ url_for('static', filename='images/three.jpg')}}"];
+            const bgImgsNames = ["{{url_for('static', filename='images/one.jpg')}}", "{{url_for('static', filename='images/two.jpg')}}", "{{ url_for('static', filename='images/three.jpg')}}"];
             const bgImgs = bgImgsNames.map(images => images);
 
-            $.backstretch(bgImgs, { duration: 4000, fade: 500 });
+            $.backstretch(bgImgs, {
+                duration: 4000,
+                fade: 500
+            });
 
             if (!autoplay) {
                 $.backstretch('pause');
@@ -73,8 +75,6 @@
                     .css('border-top', `0`);
             }
         }
-
-
     </script>
 </head>
 
@@ -87,7 +87,7 @@
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: sessionStorage.getItem("BASE_URL") + "get-articles",
+            url: sessionStorage.getItem("BASE_URL_TEST") + "get-articles",
             success: function (data) {
                 articleArray = data['data'];
                 console.log(data['result']);
@@ -130,6 +130,18 @@
             if (typeof (Storage) != undefined) {
                 sessionStorage.setItem("ARTICLE_ID", article_id);
 
+            }
+        }
+    </script>
+    <script>
+        function checkAdmin() {
+            var person = prompt("Please enter password");
+            if (person != null) {
+                if (person == "harilee1329") {
+                    window.open("{{url_for('upload_article')}}")
+                } else {
+                    window.alert("Password wrong.")
+                }
             }
         }
     </script>
@@ -193,14 +205,15 @@
                     <section class="tm-content">
                         <h2 class="mb-5 tm-content-title">Read interesting!</h2>
                         <p class="mb-5">Read about interesting things from around the world and get to know about
-                            history
-                            and much more.</p>
+                            history and much more.</p>
                         <hr class="mb-5">
                         <p class="mb-5">Here in MyBlog we take suggestions from our viewers and write contents based on
-                            those topics. We do research on any given
-                            topic and make it interesting for you to read..</p>
-                        <!-- <a href="{{ url_for('upload_article')}}" class="btn btn-primary">Read away..</a> -->
+                            those topics. We do research on any given topic and make it interesting for you to read..
+                        </p>
+                        <a onclick="checkAdmin()" class="btn btn-success">Upload
+                            article..</a>
                     </section>
+
                 </main>
             </div>
         </div>

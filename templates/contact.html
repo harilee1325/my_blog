@@ -86,7 +86,7 @@
     $.ajax({
       type: "GET",
       dataType: "json",
-      url: sessionStorage.getItem("BASE_URL") + "get-articles",
+      url: sessionStorage.getItem("BASE_URL_TEST") + "get-articles",
       success: function (data) {
         articleArray = data['data'];
         console.log("hhhhhh")
@@ -210,8 +210,8 @@
 
                   function sendMail() {
 
-                    var name = document.getElementById("name");
-                    var message = document.getElementById("message");
+                    var name = document.getElementById("name").value;
+                    var message = document.getElementById("message").value;
                     window.open("mailto:hari.auctionsoftware@gmail.com?subject="+name+" suggestion "+"&body="+message);
                     window.alert("Mail has been sent to the admin. Thank you for your time.")
                   }
