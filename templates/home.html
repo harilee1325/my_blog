@@ -87,7 +87,7 @@
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: sessionStorage.getItem("BASE_URL_TEST") + "get-articles",
+            url: sessionStorage.getItem("BASE_URL") + "get-articles",
             success: function (data) {
                 articleArray = data['data'];
                 console.log(data['result']);
